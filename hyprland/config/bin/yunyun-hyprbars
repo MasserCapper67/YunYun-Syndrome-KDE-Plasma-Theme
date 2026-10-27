@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+# Builds the hyprbars titlebar plugin with hyprpm and points the YunYun config at it.
+# Run it again after a Hyprland update if the titlebars disappear.
+#
+# The plugin is never enabled with "hyprpm enable": only the YunYun session loads it,
+# so your other Hyprland configs are not affected.
+
+set -euo pipefail
+
+CFG="${YUNYUN_CONFIG_DIR:-${XDG_CONFIG_HOME:-$HOME/.config}/yunyun-syndrome}"
+STATE="${XDG_DATA_HOME:-$HOME/.local/share}/yunyun-syndrome"
+MANIFEST="$STATE/manifest"
+REPO_URL="https://github.com/hyprwm/hyprland-plugins"
+CACHE="/var/cache/hyprpm/$USER"
+
+record() {
+    local line
+    line="$(printf '%s\t' "$@")"
+    line="${line%$'\t'}"
+    mkdir -p "$STATE"
+    grep -qxF -- "$line" "$MANIFEST" 2>/dev/null || printf '%s\n' "$line" >>"$MANIFEST"
+}
+
+command -v hyprpm >/dev/null || {
+    echo "hyprpm is not installed (pacman -S hyprpm)." >&2
+    exit 1
+}
+
+[[ -d "$CACHE" ]] || record rootdir "$CACHE"
+
+# Headers matching the installed Hyprland, then the plugin repository
+hyprpm update
+
+if ! hyprpm list 2>/dev/null | grep -q "hyprland-plugins"; then
+    hyprpm add "$REPO_URL"
+    record hyprpm hyprland-plugins
+fi
+
+so="$(find "$CACHE" -name hyprbars.so -print -quit 2>/dev/null || true)"
+if [[ -z "$so" ]]; then
+    echo "hyprbars.so was not found under $CACHE." >&2
+    exit 1
+fi
+
+printf -- '-- Written by yunyun-hyprbars\nYY_HYPRBARS_SO = "%s"\n' "$so" >"$CFG/hypr/generated.lua"
+echo "hyprbars ready: $so"

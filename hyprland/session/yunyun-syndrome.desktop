@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Hyprland (YunYun Syndrome)
+Comment=Hyprland with the YunYun Syndrome!? Rhythm Psychosis theme
+Exec=/usr/local/bin/yunyun-syndrome-session
+Type=Application
+DesktopNames=Hyprland

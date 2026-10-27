@@ -1,0 +1,34 @@
+# Prompt from the KDE screenshots: a duration pill and a directory pill, then "● ▶"
+# Used only in the YunYun session (STARSHIP_CONFIG points here)
+
+"$schema" = "https://starship.rs/config-schema.json"
+
+add_newline = true
+
+format = """
+[](fg:#40495b)$cmd_duration[](fg:#40495b) \
+[](fg:#8d6cc6)$directory[](fg:#8d6cc6)$git_branch
+[●](fg:#8d6cc6) $character"""
+
+[cmd_duration]
+min_time = 0
+show_milliseconds = false
+format = "[◔ $duration]($style)"
+style = "bg:#40495b fg:#b6bfd3 bold"
+
+[directory]
+format = "[ → $path$read_only]($style)"
+style = "bg:#8d6cc6 fg:#08305f bold"
+home_symbol = ""
+truncation_length = 3
+truncation_symbol = "…/"
+read_only = " "
+
+[git_branch]
+format = " [](fg:#40495b)[ $branch]($style)[](fg:#40495b)"
+style = "bg:#40495b fg:#e3d2ff"
+
+[character]
+success_symbol = "[▶](fg:#8d6cc6)"
+error_symbol = "[▶](fg:#ba6bff)"
+vimcmd_symbol = "[◀](fg:#8d6cc6)"

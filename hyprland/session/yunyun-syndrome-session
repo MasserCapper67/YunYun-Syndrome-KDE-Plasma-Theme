@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# Login session for the YunYun Syndrome Hyprland theme.
+# Runs Hyprland with the theme's own config; your regular ~/.config/hypr is not used.
+# Installed to /usr/local/bin by install.sh, removed by uninstall.sh.
+
+CFG="${XDG_CONFIG_HOME:-$HOME/.config}/yunyun-syndrome"
+
+if [[ ! -f "$CFG/hypr/hyprland.lua" ]]; then
+    echo "YunYun Syndrome is not installed for $USER (missing $CFG)." >&2
+    exit 1
+fi
+
+export YUNYUN_SESSION=1
+export YUNYUN_CONFIG_DIR="$CFG"
+export PATH="$CFG/bin:$PATH"
+export KITTY_CONFIG_DIRECTORY="$CFG/kitty"
+export STARSHIP_CONFIG="$CFG/starship.toml"
+export XDG_CURRENT_DESKTOP=Hyprland
+export XDG_SESSION_DESKTOP=yunyun-syndrome
+export XDG_SESSION_TYPE=wayland
+export QT_QPA_PLATFORM="wayland;xcb"
+export ELECTRON_OZONE_PLATFORM_HINT=auto
+
+# App theming chosen during install (per-session or global), see install.sh
+if [[ -f "$CFG/theming.env" ]]; then
+    set -a
+    source "$CFG/theming.env"
+    set +a
+fi
+
+exec start-hyprland -- --config "$CFG/hypr/hyprland.lua"

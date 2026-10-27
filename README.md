@@ -10,6 +10,11 @@ A Yunyun Syndrome!? Rhythm Psychosis theme for KDE Plasma
 4. The icon aren't made by me, you can find the download here : https://store.kde.org/p/1305251
 After that, change your settings colors, Window Decoration and Plasma Style in your app settings.
 
+## Hyprland version
+There is also a Hyprland adaptation of this theme (Arch Linux), with a Quickshell panel, launcher,
+calendar and lock screen built from the same Plasma SVGs. It installs as a separate login session
+and can be fully uninstalled. See [hyprland/README.md](hyprland/README.md).
+
 ## Other preview : 
 
 ![preview2](2.png)

@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Started by kitty in the YunYun Syndrome session. Runs your login shell as usual,
+# then adds the YunYun starship prompt and fastfetch config on top, without editing
+# ~/.bashrc, ~/.zshrc or config.fish.
+
+CFG="${YUNYUN_CONFIG_DIR:-$HOME/.config/yunyun-syndrome}"
+user_shell="${SHELL:-/bin/bash}"
+
+case "$(basename "$user_shell")" in
+    fish)
+        exec "$user_shell" -i -C "
+            if command -q starship; starship init fish | source; end
+            function fastfetch; command fastfetch --config '$CFG/fastfetch/config.jsonc' \$argv; end"
+        ;;
+    bash)
+        exec "$user_shell" --rcfile "$CFG/shell/bashrc" -i
+        ;;
+    zsh)
+        export YUNYUN_ZDOTDIR="${ZDOTDIR:-$HOME}"
+        export ZDOTDIR="$CFG/shell/zsh"
+        exec "$user_shell" -i
+        ;;
+    *)
+        exec "$user_shell" -i
+        ;;
+esac

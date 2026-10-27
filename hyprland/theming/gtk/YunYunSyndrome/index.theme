@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=YunYunSyndrome
+Comment=YunYun Syndrome colors on top of adw-gtk3-dark
+Encoding=UTF-8
+
+[X-GNOME-Metatheme]
+GtkTheme=YunYunSyndrome
+IconTheme=candy-icons

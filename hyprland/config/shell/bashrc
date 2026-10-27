@@ -1,0 +1,6 @@
+# Loaded by yunyun-shell for bash: your own ~/.bashrc first, then the YunYun extras
+
+[[ -f "$HOME/.bashrc" ]] && source "$HOME/.bashrc"
+
+command -v starship >/dev/null && eval "$(starship init bash)"
+fastfetch() { command fastfetch --config "$YUNYUN_CONFIG_DIR/fastfetch/config.jsonc" "$@"; }
